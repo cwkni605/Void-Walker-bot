@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <title>Void Walker</title>
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+            <style>
+                .my-4
+                {
+                    color: white;
+                }
+                .filterBar
+                {
+                    position: sticky;
+                }
+                
+            </style>
+            <script defer src="JS/index.js"></script>
+            <script defer src="Discord Bot/BotCode.js"></script>
+        </head>
+        <body class="bg-dark">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="index.html">Void Walker</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="join.html">Join Us <span class="sr-only"></span></a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="commands.html">Commands<span class="sr-only">(current)</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="container">
+                <!-- /.col-lg-3 -->
+                    <div class="col-lg-12" id="messages">
+                        <br>
+                        <br>
+                        <div class="row">
+                            <div class="col-xl-12 col-xl-12 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h4 class="card-title">
+                                        <a>start</a>
+                                        </h4>
+                                        <h5 id="card-time">Starts your world</h5>
+                                        <p class="card-text">This is how you start your world. However if you type RESET after it will delete your world if you have one.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-xl-12 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h4 class="card-title">
+                                        <a>show</a>
+                                        </h4>
+                                        <h5 id="card-time">Shows your world</h5>
+                                        <p class="card-text">This is how you display your world. When you type a number after it will show you the specific layer, otherwize it will show you the surface.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-xl-12 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h4 class="card-title">
+                                        <a>add</a>
+                                        </h4>
+                                        <h5 id="card-time">makes your world bigger</h5>
+                                        <p class="card-text">This is how you add to your world. You have to type the layer number at the end to add a layer. When you add to a layer lower to your lowest layer it will create a new layer. </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-xl-12 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h4 class="card-title">
+                                        <a>help</a>
+                                        </h4>
+                                        <p class="card-text">If you have any more questions consult the help command for help.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                <!-- /.col-lg-9 -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container -->
+        </body>
+    </html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <title>Discord Bot Manager</title>
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+            <style>
+                .my-4
+                {
+                    color: white;
+                }
+                .input
+                {
+                    border-radius: 10px;
+                    border-style: groove;
+                }
+                .input:focus
+                {
+                    border-radius: 10px;
+                    border-style: groove;
+                }
+                #serverAll
+                {
+                    margin-right: 0.5rem;
+                }
+                table
+                {
+                    border-radius: 5px;
+                }
+                button
+                {
+                    border-radius: 5px;
+                }
+            </style>
+        </head>
+        <body class="bg-dark">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="index.html">Void Walker</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="join.html">Join Us <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="commands.html">Commands<span class="sr-only"></span></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="container">
+                <div class="row">
+                <!-- /.col-lg-3 -->
+                <div class="col-lg-12">
+                    <br>
+                    <br>
+                    <div class="row">
+                        <div class="col-xl-12 col-xl-12 mb-4">
+                            <div class="card  h-100">
+                                <div class="card-body">
+                                    <h4 class="card-title">Join us in the Void</h4>
+                                    <button onclick="link()"> JOIN </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.col-lg-9 -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container -->
+            <script>
+                function link() {
+                    window.location.href = "https://discord.com/api/oauth2/authorize?client_id=766038173301080064&permissions=8&scope=bot";
+                }
+            </script>
+        </body>
+    </html>
