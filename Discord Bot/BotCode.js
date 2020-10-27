@@ -4,6 +4,8 @@ const Prefix = "^";
 const giphyToken = "0qBmZTC1mkFebUeM5IejAG5orFpm1pAp";
 var GiphyAPIClient = require('giphy-js-sdk-core')
 giphy  = GiphyAPIClient(giphyToken)
+
+
 class World
 {
     constructor(id,tag,calledTime)
@@ -17,60 +19,107 @@ class World
         this.celest = "day";
         this.enitityList = [new Man()];
         this.worldData =
-        [[[new Tile("dirt",true,"tree"),new Tile("dirt",true,"none"),new Tile("dirt",true,"none")],
-        [new Tile("dirt",true,"none"),new Tile("hole",true,"none"),new Tile("fluid",true,"none")],
-        [new Tile("dirt",true,"none"),new Tile("dirt",true,"none"),new Tile("dirt",true,"tree")]],
+        [[[new Tile("dirt",0,"tree"),new Tile("dirt",0,"none"),new Tile("dirt",0,"none")],
+        [new Tile("dirt",0,"none"),new Tile("hole",0,"man",this.enitityList[0]),new Tile("fluid",0,"none")],
+        [new Tile("dirt",0,"none"),new Tile("dirt",0,"none"),new Tile("dirt",0,"tree")]],
 
-        [[new Tile("stone",false,"none"),new Tile("stone",false,"none"),new Tile("stone",false,"ore")],
-        [new Tile("stone",false,"none"),new Tile("hole",false,"none"),new Tile("fluid",false,"none")],
-        [new Tile("stone",false,"none"),new Tile("stone",false,"none"),new Tile("stone",false,"ore")]]];
+        [[new Tile("stone",1,"none"),new Tile("stone",1,"none"),new Tile("stone",1,"ore")],
+        [new Tile("stone",1,"none"),new Tile("hole",1,"none"),new Tile("fluid",1,"none")],
+        [new Tile("stone",1,"none"),new Tile("stone",1,"none"),new Tile("stone",1,"ore")]]];
     }
-}
-
-class mob
-{
-    constructor()
+    move(World, Mob, Layer, Row, Tile)
     {
-        this.direction = Math.floor(Math.random()*3);
-    }
-    move(World, x, y, z)
-    {
+        console.log(Mob.direction);
         try
         {
-            if (this.direction == 0)
+            if (Mob.direction == 0)
             {
-                if (World) {
-                    
+                if (World[Layer][Row-1][Tile].crossable)
+                {
+                    World[Layer][Row-1][Tile].structure = Mob.name;
+                    World[Layer][Row-1][Tile].crossable = false;
+                    World[Layer][Row-1][Tile].mob = Mob;
+                    World[Layer][Row][Tile].structure = "none";
+                    World[Layer][Row][Tile].crossable = true;
+                    World[Layer][Row][Tile].mob = "none";
+                }
+            }
+            if (Mob.direction == 1)
+            {
+                console.log(1);
+                if (World[Layer][Row][Tile+1].crossable == true)
+                {
+                    World[Layer][Row][Tile+1].structure = Mob;
+                    World[Layer][Row][Tile+1].crossable = false;
+                    World[Layer][Row][Tile+1].mob = Mob;
+                    World[Layer][Row][Tile].structure = "none";
+                    World[Layer][Row][Tile].crossable = true;
+                    World[Layer][Row][Tile].mob = "none";
+                }
+            }
+            if (Mob.direction == 2)
+            {
+                console.log(2);
+                if (World[Layer][Row+1][Tile].crossable == true)
+                {
+                    World[Layer][Row+1][Tile].structure = Mob;
+                    World[Layer][Row+1][Tile].crossable = false;
+                    World[Layer][Row+1][Tile].mob = Mob;
+                    World[Layer][Row][Tile].structure = "none";
+                    World[Layer][Row][Tile].crossable = true;
+                    World[Layer][Row][Tile].mob = "none";
+                }
+            }
+            if (Mob.direction == 3)
+            {
+                console.log(3);
+                if (World[Layer][Row][Tile-1].crossable == true)
+                {
+                    World[Layer][Row][Tile-1].structure = Mob;
+                    World[Layer][Row][Tile-1].crossable = false;
+                    World[Layer][Row][Tile-1].mob = Mob;
+                    World[Layer][Row][Tile].structure = "none";
+                    World[Layer][Row][Tile].crossable = true;
+                    World[Layer][Row][Tile].mob = "none";
                 }
             }
         }
         catch(error)
         {
-            console.error("running into a wall");
+            console.log(error + "\nor running into a wall, stupid thing");
         }
     }
 }
 
-class Man extends mob
+class Mob
+{
+    constructor(Name)
+    {
+        this.name = Name;
+        this.direction = Math.round(Math.random()*3);//
+        this.tools = [];
+        this.armor = [];
+    }
+}
+
+class Man extends Mob
 {
     constructor()
     {
-        super();
+        super("man");
         this.health = 100;
         this.moveTime = 1000;
         this.priorityList = [];
         this.inventory = [];
-        this.tools = [];
-        this.armor = [];
         this.level = 0;
     }
 }
 
-class monster extends mob
+class monster extends Mob
 {
     constructor(world)
     {
-        super();
+        super("monster");
         this.damage = (Math.random()+5-Math.random())*world.dificulty;
         this.health = (Math.random()+20-Math.random())*world.dificulty;
         this.position = [x, y, z];
@@ -78,11 +127,11 @@ class monster extends mob
     }
 }
 
-class beast extends mob
+class beast extends Mob
 {
     constructor(beastType)
     {
-        super();
+        super("beast");
         this.health = (Math.random()+20-Math.random())*world.dificulty;
         this.type = beastType;
         this.exp = ((Math.random()+Math.random())*10)*world.dificulty;
@@ -103,11 +152,15 @@ class Tool
 
 class Tile
 {
-    constructor(Type,Surface,Structure)
+    constructor(Type,Surface,Structure,Mob)
     {
         this.type = Type;
         this.structure = Structure;
-        this.buildTime = 20000;
+        this.mob = "none";
+        if(this.structure == "man")
+        {
+            this.mob == Mob;
+        }
         if(this.type === "fluid" || this.structure !== "none")
         {
             this.crossable = false;
@@ -125,7 +178,11 @@ class Tile
             this.fishable = false
         }
         this.texture = "none";
-        if(Surface)
+        this.updateTexture(Surface);
+    }
+    updateTexture(layer)
+    {
+        if(layer === 0)
         {
             this.texture = this.updateTextureSurface();
         }
@@ -144,6 +201,10 @@ class Tile
         {
             return ":house_with_garden:";
         }
+        else if(this.structure !== "none")
+        {
+            return this.updateTextureMob(this.structure);
+        }
         else if(this.type === "hole")
         {
             return ":hole:";
@@ -156,16 +217,16 @@ class Tile
         {
             return ":blue_square:";
         }
-        else
-        {
-            return this.updateTextureMob(this.structure);
-        }
     }
     updateTextureUnderground()
     {
         if(this.structure === "ore")
         {
             return ":white_square_button:";
+        }
+        else if(this.structure !== "none")
+        {
+            return this.updateTextureMob(this.structure);
         }
         else if(this.type === "hole")
         {
@@ -178,10 +239,6 @@ class Tile
         else if(this.type === "fluid")
         {
             return ":red_square:";
-        }
-        else
-        {
-            return this.updateTextureMob(this.structure);
         }
     }
     updateTextureMob(structure)
@@ -203,18 +260,47 @@ function runWorld(timeLoopAmount, meetTime, World)
 {
     var manPos = [];
     var mobPos = [];
-    for(let i = timeLoopAmount; i < meetTime; i++)
+    for (let layers = 0; layers < World.worldData.length; layers++)
     {
-        for (let layers = 0; height < World.worldData.length; layers++) {
-            const layer = World.worldData[layers];
-            for (let rows = 0; rows < layer.length; rows++) {
-                const row = layer[rows];
-                for (let tiles = 0; tiles < row.length; tiles++) {
-                    const tile = row[tiles];
-                    
+        const layer = World.worldData[layers];
+        for (let rows = 0; rows < layer.length; rows++)
+        {
+            const row = layer[rows];
+            for (let tiles = 0; tiles < row.length; tiles++)
+            {
+                const tile = row[tiles];
+                if(tile.structure == "man")
+                {
+                    manPos.push(World.enitityList[0]);
+                    manPos.push(layers);
+                    manPos.push(rows);
+                    manPos.push(tiles);
+                }
+                else if (tile.structure == "monster")
+                {
+                    let tempArray = [];
+                    tempArray.push(tile.mob);
+                    tempArray.push(layers);
+                    tempArray.push(rows);
+                    tempArray.push(tiles);
+                    mobPos.push(tempArray);
+                }
+                else if (tile.structure == "beast")
+                {
+                    let tempArray = [];
+                    tempArray.push(tile.mob);
+                    tempArray.push(layers);
+                    tempArray.push(rows);
+                    tempArray.push(tiles);
+                    mobPos.push(tempArray);
                 }
             }
         }
+    }
+    
+    for(let i = Math.floor(timeLoopAmount/1000); i < Math.round(meetTime/1000); i++)
+    {
+        World.move(World.worldData, manPos[0], manPos[1], manPos[2], manPos[3]);
     }
 }
 
@@ -225,6 +311,7 @@ function compileWorldTexture(World,Level)
     {
         for(let ii = 0; ii < World[Level][i].length; ii++)
         {
+            World[Level][i][ii].updateTexture(Level);
             tempPrintOut = tempPrintOut + World[Level][i][ii].texture;
         }
         tempPrintOut = tempPrintOut + "\n";
@@ -332,6 +419,17 @@ client.on('message', (message) => {
                     }
                 }
             });
+            if (hasStarted === false) {
+                message.reply("You must start a world before you can use this command.\nType ^start to get started!");
+            }
+            else if(hasStarted)
+            {
+
+            }
+            else
+            {
+                message.reply("An error has occured. Please try again later when the bug has been patched. ");
+            }
         }
         else if(CMD === "add")
         {
@@ -362,21 +460,27 @@ client.on('message', (message) => {
                 console.log(worlds);
             }
         }
-        else if(CMD === "meme")
+        else if(CMD === "fail")
         {
-            if(message.author.id === '208419966200971264')
-            {
-               giphy.search('jpg', {"q": "memes"})
-                .then((response) =>{
-                var totalResponses = response.data.length;
-                var responseIndex = Math.floor((Math.random() * 10) + 1) % totalResponses;
-                var responseFinal = response.data[responseIndex];
-                message.channel.send("Lol this very funny", {
-                    files: [responseFinal.images.fixed_height.url]
-                });
-                console.log(worlds);
-                })
-            }
+            giphy.search('gifs', {"q": "fail"})
+            .then((response) =>{
+            var totalResponses = response.data.length;
+            var responseIndex = Math.floor((Math.random() * totalResponses));
+            var responseFinal = response.data[responseIndex];
+            message.channel.send("Smash Bros announcer: Failure", {files: [responseFinal.images.fixed_height.url]});
+            console.log(worlds);
+            })
+        }
+        else if(CMD === "WOW")
+        {
+            giphy.search('gifs', {"q": "wow"})
+            .then((response) =>{
+            var totalResponses = response.data.length;
+            var responseIndex = Math.floor((Math.random() * 10) + 1) % totalResponses;
+            var responseFinal = response.data[responseIndex];
+            message.channel.send("Anime noise: WOW", {files: [responseFinal.images.fixed_height.url]});
+            console.log(worlds);
+            });
         }
         else
         {
@@ -385,7 +489,7 @@ client.on('message', (message) => {
     }
 });
 
-client.login("NzY2MDM4MTczMzAxMDgwMDY0.X4dipA.nBEgat2ThSQJQ1oaGPqzgB4CjzQ");
+client.login("NzY2MDM4MTczMzAxMDgwMDY0.X4dipA.EEMiV5vqeHwTrgBlFQuDKORSm68");
 
 setInterval(()=>{
     worlds.sort((a,b)=>
