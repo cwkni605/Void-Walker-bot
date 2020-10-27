@@ -489,7 +489,7 @@ client.on('message', (message) => {
     }
 });
 
-client.login("NzY2MDM4MTczMzAxMDgwMDY0.X4dipA.EEMiV5vqeHwTrgBlFQuDKORSm68");
+client.login("NzY2MDM4MTczMzAxMDgwMDY0.X4dipA.35CLfn4CLbmcw8rXxdBl8EtaFTE");
 
 setInterval(()=>{
     worlds.sort((a,b)=>
